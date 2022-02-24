@@ -5,8 +5,14 @@ import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { getList } from "./api/picsum";
 import { actionCreators, initialState, reducer } from "./reducers/photos";
 import PhotoGrid from "./components/PhotoGrid";
+import SingleImage from "./components/SingleImage";
 
-const App = () => {
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
+
+const Gallery = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const { photos, nextPage, loading, error } = state;
@@ -53,10 +59,25 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
 });
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Gallery">
+        <Stack.Screen name="Gallery" component={Gallery} />
+        <Stack.Screen
+          name="SingleImage"
+          component={SingleImage}
+          options={({ route }) => ({ title: route.params.item.author })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;

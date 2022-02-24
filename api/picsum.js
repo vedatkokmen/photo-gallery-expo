@@ -1,7 +1,7 @@
 const BASE_URL = `https://picsum.photos/v2`;
 
 export async function getList(page = 1) {
-  const response = await fetch(`${BASE_URL}/list?page=${page}`);
+  const response = await fetch(`${BASE_URL}/list?page=${page}&limit=24`);
   const photos = await response.json();
   return photos;
 }
